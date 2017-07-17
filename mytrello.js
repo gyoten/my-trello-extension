@@ -27,42 +27,7 @@
   };
 
   var button = createFitButton();
-  var boardMdLinkButton = createGenerateMDLinkOfBoard();
   var slimmed = false;
-
-  function createGenerateMDLinkOfBoard() {    
-    var mdLinkOfBoardButtonElement = document.createElement('a');
-    mdLinkOfBoardButtonElement.className = 'board-header-btn';
-    var mdLinkOfBoardButtonTextElement = document.createElement('span');
-    mdLinkOfBoardButtonTextElement.className = 'board-header-btn-text';
-    mdLinkOfBoardButtonTextElement.textContent = 'Board Link';
-    mdLinkOfBoardButtonElement.addEventListener('click', getBoardMdLink);
-    mdLinkOfBoardButtonElement.appendChild(mdLinkOfBoardButtonTextElement);
-
-    return mdLinkOfBoardButtonElement;
-  }
-
-  function getBoardMdLink() {
-    var title = document.title;
-    var url = generateUrlForMDLink(document.URL);
-    var mdlink = "[" + title + "]" + "(" + url + ")";
-
-      var copyFrom = document.createElement("textarea");
-      copyFrom.textContent = mdlink;
-      document.body.appendChild(copyFrom);
-      copyFrom.select();
-      document.execCommand('copy');
-      document.body.removeChild(copyFrom)
-  }
-
-  function addMdLinkOfBoardButton(){
-    var container = document.getElementsByClassName('board-header-btns mod-left');
-    if(!container[0]) {
-      return;
-    }
-
-    container[0].appendChild(boardMdLinkButton);
-  }
 
   init();
 
@@ -76,7 +41,7 @@
           unwideLists();
           unfitLists();
           showExtraCardUI();
-          addMdLinkOfBoardButton();
+          addGetBoardMdLinkButton();
           break;
         }
         if(record.target.classList.contains('list-card-title')) {
@@ -494,6 +459,41 @@
         timeout = null;
       }, delay);
     };
+  }
+
+  
+  function createGetBoardMdLinkButton() {    
+    var mdLinkOfBoardButtonElement = document.createElement('a');
+    mdLinkOfBoardButtonElement.className = 'board-header-btn';
+    var mdLinkOfBoardButtonTextElement = document.createElement('span');
+    mdLinkOfBoardButtonTextElement.className = 'board-header-btn-text';
+    mdLinkOfBoardButtonTextElement.textContent = 'Copy BoardMdLink';
+    mdLinkOfBoardButtonElement.addEventListener('click', copyBoardMdLink);
+    mdLinkOfBoardButtonElement.appendChild(mdLinkOfBoardButtonTextElement);
+
+    return mdLinkOfBoardButtonElement;
+  }
+
+  function copyBoardMdLink() {
+    var title = document.title;
+    var url = generateUrlForMDLink(document.URL);
+    var mdlink = "[" + title + "]" + "(" + url + ")";
+
+      var copyFrom = document.createElement("textarea");
+      copyFrom.textContent = mdlink;
+      document.body.appendChild(copyFrom);
+      copyFrom.select();
+      document.execCommand('copy');
+      document.body.removeChild(copyFrom)
+  }
+
+  function addGetBoardMdLinkButton(){
+    var container = document.getElementsByClassName('board-header-btns mod-left');
+    if(!container[0]) {
+      return;
+    }
+
+    container[0].appendChild( createGetBoardMdLinkButton() );
   }
 
 })();
